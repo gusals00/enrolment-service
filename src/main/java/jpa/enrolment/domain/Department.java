@@ -15,8 +15,8 @@ public class Department {
     @Column(name = "department_id")
     private int id;
 
-    private int Number;
-    private String Name;
+    private int number;
+    private String name;
 }
 
 
