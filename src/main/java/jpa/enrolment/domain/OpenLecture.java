@@ -25,4 +25,8 @@ public class OpenLecture {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "syllabus_id")
+    private Syllabus syllabus;
 }
