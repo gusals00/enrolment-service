@@ -5,7 +5,6 @@ import jpa.enrolment.domain.person.Professor;
 import lombok.Getter;
 
 import javax.persistence.*;
-
 @Entity
 @Getter
 public class OpenLecture {
