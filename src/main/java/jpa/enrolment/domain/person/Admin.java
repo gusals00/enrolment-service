@@ -1,8 +1,10 @@
 package jpa.enrolment.domain.person;
 
 import jpa.enrolment.domain.Department;
+import jpa.enrolment.dto.AdminUpdateDTO;
+import jpa.enrolment.dto.PersonDTO;
+import jpa.enrolment.dto.ProfessorUpdateDTO;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,8 +19,20 @@ public class Admin extends Person {
         super(ssn, name, email, loginId, loginPw, department);
     }
 
-    public static Admin createAdmin(){
-        return new Admin();
+    public static Admin createAdmin(String ssn, String name, String email, String loginId, String loginPw, Department department){
+        return new Admin( ssn,  name,  email,  loginId,  loginPw,  department);
+    }
+
+    public void change(AdminUpdateDTO adminUpdateDTO) {
+        PersonDTO personDTO = new PersonDTO();
+        personDTO.setId(adminUpdateDTO.getId());
+        personDTO.setEmail(adminUpdateDTO.getEmail());
+        personDTO.setDepartment(adminUpdateDTO.getDepartment());
+        personDTO.setLoginId(adminUpdateDTO.getLoginId());
+        personDTO.setLoginPw(adminUpdateDTO.getLoginPw());
+        personDTO.setSsn(adminUpdateDTO.getSsn());
+        personDTO.setName(adminUpdateDTO.getName());
+        changePerson(personDTO);
     }
 }
 

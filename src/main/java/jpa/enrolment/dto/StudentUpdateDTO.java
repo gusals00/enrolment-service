@@ -17,4 +17,14 @@ public class StudentUpdateDTO {
 
     private int studentLevel;
 
+    public StudentUpdateDTO(Long id, String ssn, String name, String email, String loginId, String loginPw, Department department, int studentLevel) {
+        this.id = id;
+        this.ssn = ssn;
+        this.name = name;
+        this.email = email;
+        this.loginId = loginId;
+        this.loginPw = loginPw;
+        this.department = department;
+        this.studentLevel = studentLevel;
+    }
 }
