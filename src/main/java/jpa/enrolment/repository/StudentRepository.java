@@ -1,5 +1,6 @@
 package jpa.enrolment.repository;
 
+import jpa.enrolment.domain.person.Admin;
 import jpa.enrolment.domain.person.Professor;
 import jpa.enrolment.domain.person.Student;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,8 @@ public class StudentRepository {
                 .getId();
     }
 
-    public void update() {
-
+    public void delete(Long id) {
+        Student deleteStudent = em.find(Student.class, id);
+        em.remove(deleteStudent);
     }
 }

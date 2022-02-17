@@ -33,4 +33,8 @@ public class StudentService {
     public Student findOne(Long studentId) {
         return studentRepository.findOne(studentId);
     }
+
+    public Long loginStudent(String id, String pw) {
+        return studentRepository.login(id, pw);
+    }
 }
