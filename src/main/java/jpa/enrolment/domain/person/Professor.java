@@ -1,6 +1,8 @@
 package jpa.enrolment.domain.person;
 
 import jpa.enrolment.domain.Department;
+import jpa.enrolment.dto.PersonDTO;
+import jpa.enrolment.dto.ProfessorUpdateDTO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,5 +25,19 @@ public class Professor extends Person {
 
     public static Professor createProfessor(String ssn, String name, String email, String loginId, String loginPw, Department department, String phoneNumber, String labNumber){
         return new Professor(ssn,  name,  email,  loginId,  loginPw,  department,  phoneNumber,  labNumber);
+    }
+
+    public void change(ProfessorUpdateDTO professorUpdateDTO) {
+        labNumber = professorUpdateDTO.getLabNumber();
+        phoneNumber = professorUpdateDTO.getPhoneNumber();
+        PersonDTO personDTO = new PersonDTO();
+        personDTO.setId(professorUpdateDTO.getId());
+        personDTO.setEmail(professorUpdateDTO.getEmail());
+        personDTO.setDepartment(professorUpdateDTO.getDepartment());
+        personDTO.setLoginId(professorUpdateDTO.getLoginId());
+        personDTO.setLoginPw(professorUpdateDTO.getLoginPw());
+        personDTO.setSsn(professorUpdateDTO.getSsn());
+        personDTO.setName(professorUpdateDTO.getName());
+        changePerson(personDTO);
     }
 }

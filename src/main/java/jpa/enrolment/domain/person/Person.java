@@ -1,6 +1,7 @@
 package jpa.enrolment.domain.person;
 
 import jpa.enrolment.domain.Department;
+import jpa.enrolment.dto.PersonDTO;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,6 +39,16 @@ public abstract class Person {
         this.loginId = loginId;
         this.loginPw = loginPw;
         this.department = department;
+    }
+
+    public void changePerson(PersonDTO personDTO) {
+        ssn = personDTO.getSsn();
+
+        name = personDTO.getName();
+        email = personDTO.getEmail();
+        loginId = personDTO.getLoginId();
+        loginPw = personDTO.getLoginPw();
+        department = personDTO.getDepartment();
     }
 
 }
