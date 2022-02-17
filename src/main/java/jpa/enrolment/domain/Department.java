@@ -1,6 +1,8 @@
 package jpa.enrolment.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Department {
 
     @Id @GeneratedValue
@@ -17,6 +20,15 @@ public class Department {
 
     private int number;
     private String name;
+
+    protected Department(int number, String name) {
+        this.number = number;
+        this.name = name;
+    }
+
+    public static Department createDepartment(int number, String name){
+        return new Department(number,name);
+    }
 }
 
 
