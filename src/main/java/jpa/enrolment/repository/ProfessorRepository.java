@@ -35,7 +35,4 @@ public class ProfessorRepository {
                 .getId();
     }
 
-    public void update() {
-
-    }
 }
