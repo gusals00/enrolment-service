@@ -28,11 +28,12 @@ public class StudentRepository {
     }
 
     public Long login(String id, String pw) {
-        return em.createQuery("select s.id from Student s where s.loginId = :id and s.loginPw = :pw", Student.class)
+        return em.createQuery("select s from Student s where s.loginId = :id and s.loginPw = :pw", Student.class)
                 .setParameter("id", id)
                 .setParameter("pw", pw)
                 .getSingleResult()
                 .getId();
+
     }
 
     public void delete(Long id) {
