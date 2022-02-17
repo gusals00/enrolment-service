@@ -19,11 +19,12 @@ public class StudentService {
 
     @Transactional
     public void update(StudentUpdateDTO studentUpdateDTO){
-
+        Student student = studentRepository.findOne(studentUpdateDTO.getId());
+        student.change(studentUpdateDTO);
     }
 
     @Transactional
-    public void saveStudent(Student student){}
+    public void saveStudent(Student student){studentRepository.save(student);}
 
     public List<Student> findStudent() {
         return studentRepository.findAll();
