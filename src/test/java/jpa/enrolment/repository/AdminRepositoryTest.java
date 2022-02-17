@@ -58,7 +58,6 @@ class AdminRepositoryTest {
     }
 
     @Test
-    @Rollback(value = false)
     void delete() {
         Department department = Department.createDepartment(1,"컴소공");
         departmentRepository.save(department);
