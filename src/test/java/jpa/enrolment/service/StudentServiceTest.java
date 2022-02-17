@@ -21,7 +21,6 @@ class StudentServiceTest {
     @Autowired DepartmentRepository departmentRepository;
 
     @Test
-    @Rollback(value = false)
     void update() {
         Department department = Department.createDepartment(1,"컴소공");
         departmentRepository.save(department);
