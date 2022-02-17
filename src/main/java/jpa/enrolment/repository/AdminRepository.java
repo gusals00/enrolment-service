@@ -28,4 +28,9 @@ public class AdminRepository {
     public Admin findOne(Long id) {
         return em.find(Admin.class, id);
     }
+
+    public void delete(Long id) {
+        Admin deleteAdmin = em.find(Admin.class, id);
+        em.remove(deleteAdmin);
+    }
 }

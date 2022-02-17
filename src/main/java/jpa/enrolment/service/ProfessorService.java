@@ -22,6 +22,7 @@ public class ProfessorService {
         professor.change(professorUpdateDTO);
     }
 
+    @Transactional
     public void saveProfessor(Professor professor) {
         professorRepository.save(professor);
     }
@@ -32,5 +33,9 @@ public class ProfessorService {
 
     public Professor findOne(Long professorId) {
         return professorRepository.findOne(professorId);
+    }
+
+    public Long loginProfessor(String id, String pw) {
+        return professorRepository.login(id, pw);
     }
 }
