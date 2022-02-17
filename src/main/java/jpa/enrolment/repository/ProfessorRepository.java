@@ -28,7 +28,7 @@ public class ProfessorRepository {
     }
 
     public Long login(String id, String pw) {
-        return em.createQuery("select p.id from Professor p where p.loginId = :id and p.loginPw = :pw", Professor.class)
+        return em.createQuery("select p from Professor p where p.loginId = :id and p.loginPw = :pw", Professor.class)
                 .setParameter("id", id)
                 .setParameter("pw", pw)
                 .getSingleResult()

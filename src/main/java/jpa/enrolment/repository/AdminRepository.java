@@ -18,7 +18,7 @@ public class AdminRepository {
     }
 
     public Long login(String id, String pw) {
-        return em.createQuery("select a.id from Admin a where a.loginId = :id and a.loginPw = :pw", Admin.class)
+        return em.createQuery("select a from Admin a where a.loginId = :id and a.loginPw = :pw", Admin.class)
                 .setParameter("id", id)
                 .setParameter("pw", pw)
                 .getSingleResult()
