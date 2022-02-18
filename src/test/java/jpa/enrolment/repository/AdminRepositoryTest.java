@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,7 +30,7 @@ class AdminRepositoryTest {
         Admin admin = Admin.createAdmin("1234-1234","admin1","lo@naver","555","111",department);
 
         adminRepository.save(admin);
-        Admin findAdmin = adminRepository.findOne(admin.getId());
+        Admin findAdmin = adminRepository.findOne(admin.getId()).get();
 
         assertThat(admin).isEqualTo(findAdmin);
     }
@@ -64,9 +65,8 @@ class AdminRepositoryTest {
         Admin admin = Admin.createAdmin("1234-1234","admin1","lo@naver","555","111",department);
         adminRepository.save(admin);
 
-        adminRepository.delete(admin.getId());
-        Admin result = adminRepository.findOne(admin.getId());
+        Long deleteId = adminRepository.delete(admin.getId());
 
-        assertThat(result).isEqualTo(null); // em.find()는 원하는 entity 없는 경우 null을 반환
+        Assertions.assertThrows(NoSuchElementException.class,()->adminRepository.findOne(deleteId).get());
     }
 }

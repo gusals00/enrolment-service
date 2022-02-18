@@ -29,7 +29,6 @@ public class Student extends Person{
     public void change(StudentUpdateDTO studentUpdateDTO) {
         studentLevel = studentUpdateDTO.getStudentLevel();
         PersonDTO personDTO = new PersonDTO();
-        personDTO.setId(studentUpdateDTO.getId());
         personDTO.setEmail(studentUpdateDTO.getEmail());
         personDTO.setDepartment(studentUpdateDTO.getDepartment());
         personDTO.setLoginId(studentUpdateDTO.getLoginId());

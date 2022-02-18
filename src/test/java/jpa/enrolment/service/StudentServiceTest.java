@@ -1,6 +1,7 @@
 package jpa.enrolment.service;
 
 import jpa.enrolment.domain.Department;
+import jpa.enrolment.domain.person.Admin;
 import jpa.enrolment.domain.person.Student;
 import jpa.enrolment.dto.StudentUpdateDTO;
 import jpa.enrolment.repository.DepartmentRepository;
@@ -27,12 +28,40 @@ class StudentServiceTest {
         Student student = Student.createStudent("1234-1234","성호창","lo@naver","20180584","1234",department,3);
         studentService.saveStudent(student);
 
-        StudentUpdateDTO studentUpdateDTO = new StudentUpdateDTO(student.getId(),student.getSsn(),student.getName(),student.getEmail(),"1234","01234",department,student.getStudentLevel());
-        studentService.update(studentUpdateDTO);
+        StudentUpdateDTO studentUpdateDTO = new StudentUpdateDTO(student.getSsn(),student.getName(),student.getEmail(),"1234","01234",department,student.getStudentLevel());
+        studentService.update(student.getId(),studentUpdateDTO);
 
-        Student updatedStudent = studentService.findOne(student.getId());
+        Student updatedStudent = studentService.findOne(student.getId()).get();
         Assertions.assertThat(updatedStudent.getLoginId()).isEqualTo("1234");//로그인아이디(학번) 변경 확인
         Assertions.assertThat(updatedStudent.getLoginPw()).isEqualTo("01234");//비번 변경 확인
+
+    }
+
+    @Test
+    void 회원가입성공(){
+        Department department = Department.createDepartment(1,"컴소공");
+        departmentRepository.save(department);
+        Student student = Student.createStudent("1234-1234","성호창","lo@naver","20180584","1234",department,3);
+
+        Long savedId = studentService.joinStudent(student);
+        Student findStudent = studentService.findOne(savedId).get();
+
+        Assertions.assertThat(savedId).isEqualTo(findStudent.getId());
+
+    }
+
+
+    @Test
+    void 회원가입실패(){
+        Department department = Department.createDepartment(1,"컴소공");
+        departmentRepository.save(department);
+        Student student1 = Student.createStudent("1234-1234","성호창","lo@naver","20180584","1234",department,3);
+        Student student2 = Student.createStudent("1234-123422","성호창2","lo@naver222","20180584","123434",department,2);
+
+        studentService.joinStudent(student1);
+
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> studentService.joinStudent(student2));
+        Assertions.assertThat(e.getMessage()).isEqualTo("이미 가입된 student가 있습니다.");
 
     }
 }

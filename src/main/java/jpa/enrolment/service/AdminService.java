@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,16 +20,17 @@ public class AdminService {
     private final AdminRepository adminRepository;
 
     @Transactional
-    public void update(AdminUpdateDTO adminUpdateDTO) {
-        Admin admin = adminRepository.findOne(adminUpdateDTO.getId());
-        admin.change(adminUpdateDTO);
+    public Long update(Long id, AdminUpdateDTO adminUpdateDTO) {
+        Optional<Admin> admin = adminRepository.findOne(id);
+        admin.get().change(adminUpdateDTO);
+        return admin.get().getId();
     }
     @Transactional
     public void saveAdmin(Admin admin) {
         adminRepository.save(admin);
     }
 
-    public Admin findOne(Long adminId) {
+    public Optional<Admin> findOne(Long adminId) {
         return adminRepository.findOne(adminId);
     }
 
@@ -36,4 +38,17 @@ public class AdminService {
         return adminRepository.login(id, pw);
     }
 
+    @Transactional
+    public Long joinAdmin(Admin admin){
+        validateLoginId(admin.getLoginId());
+        adminRepository.save(admin);
+        return admin.getId();
+    }
+
+    public void validateLoginId(String loginId){
+        if(!adminRepository.findByLoginId(loginId).isEmpty()){
+            throw new IllegalStateException("이미 가입된 admin이 있습니다.");
+        }
+
+    }
 }
