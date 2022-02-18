@@ -7,7 +7,6 @@ import lombok.Setter;
 @Getter @Setter
 public class ProfessorUpdateDTO {
 
-    private Long id;
     private String ssn;
     private String name;
     private String email;
@@ -17,8 +16,7 @@ public class ProfessorUpdateDTO {
     private String labNumber;
     private Department department;
 
-    public ProfessorUpdateDTO(Long id, String ssn, String name, String email, String loginId, String loginPw, String phoneNumber, String labNumber, Department department) {
-        this.id = id;
+    public ProfessorUpdateDTO(String ssn, String name, String email, String loginId, String loginPw, String phoneNumber, String labNumber, Department department) {
         this.ssn = ssn;
         this.name = name;
         this.email = email;

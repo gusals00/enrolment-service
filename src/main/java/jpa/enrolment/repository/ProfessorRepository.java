@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -23,14 +24,14 @@ public class ProfessorRepository {
                 .getResultList();
     }
 
-    public Professor findOne(Long id) {
-        return em.find(Professor.class, id);
+    public Optional<Professor> findOne(Long id) {
+        return Optional.ofNullable(em.find(Professor.class, id));
     }
 
-    public Long login(String id, String pw) {
+    public Long login(String loginId, String loginPw) {
         return em.createQuery("select p from Professor p where p.loginId = :id and p.loginPw = :pw", Professor.class)
-                .setParameter("id", id)
-                .setParameter("pw", pw)
+                .setParameter("id", loginId)
+                .setParameter("pw", loginPw)
                 .getSingleResult()
                 .getId();
     }
@@ -42,4 +43,9 @@ public class ProfessorRepository {
         return id;
     }
 
+    public List<Professor> findByLoginId(String loginId) {
+        return em.createQuery("select  p from Professor p where p.loginId =:loginId ", Professor.class)
+                .setParameter("loginId", loginId)
+                .getResultList();
+    }
 }

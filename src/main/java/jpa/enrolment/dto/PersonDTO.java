@@ -6,7 +6,6 @@ import lombok.Setter;
 
 @Getter @Setter
 public class PersonDTO {
-    private Long id;
 
     public PersonDTO() {
     }
@@ -18,8 +17,7 @@ public class PersonDTO {
     private String loginPw;
     private Department department;
 
-    public PersonDTO(Long id, String ssn, String name, String email, String loginId, String loginPw, Department department) {
-        this.id = id;
+    public PersonDTO( String ssn, String name, String email, String loginId, String loginPw, Department department) {
         this.ssn = ssn;
         this.name = name;
         this.email = email;

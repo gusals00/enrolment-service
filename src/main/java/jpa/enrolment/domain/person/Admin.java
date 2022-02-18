@@ -25,7 +25,6 @@ public class Admin extends Person {
 
     public void change(AdminUpdateDTO adminUpdateDTO) {
         PersonDTO personDTO = new PersonDTO();
-        personDTO.setId(adminUpdateDTO.getId());
         personDTO.setEmail(adminUpdateDTO.getEmail());
         personDTO.setDepartment(adminUpdateDTO.getDepartment());
         personDTO.setLoginId(adminUpdateDTO.getLoginId());

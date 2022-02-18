@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -23,21 +24,28 @@ public class StudentRepository {
                 .getResultList();
     }
 
-    public Student findOne(Long id) {
-        return em.find(Student.class, id);
+    public Optional<Student> findOne(Long id) {
+        return Optional.ofNullable(em.find(Student.class, id));
     }
 
-    public Long login(String id, String pw) {
+    public Long login(String loginId, String loginPw) {
         return em.createQuery("select s from Student s where s.loginId = :id and s.loginPw = :pw", Student.class)
-                .setParameter("id", id)
-                .setParameter("pw", pw)
+                .setParameter("id", loginId)
+                .setParameter("pw", loginPw)
                 .getSingleResult()
                 .getId();
 
     }
 
-    public void delete(Long id) {
+    public Long delete(Long id) {
         Student deleteStudent = em.find(Student.class, id);
         em.remove(deleteStudent);
+        return id;
+    }
+
+    public List<Student> findByLoginId(String loginId) {
+        return em.createQuery("select  s from Student s where s.loginId =:loginId ", Student.class)
+                .setParameter("loginId", loginId)
+                .getResultList();
     }
 }

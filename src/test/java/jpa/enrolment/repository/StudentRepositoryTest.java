@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +32,7 @@ class StudentRepositoryTest {
         Student student = Student.createStudent("1234-1234","성호창","lo@naver","20180584","1234",department,3);
 
         studentRepository.save(student);
-        Student findStudent = studentRepository.findOne(student.getId());
+        Student findStudent = studentRepository.findOne(student.getId()).get();
 
         assertThat(student).isEqualTo(findStudent);
     }
@@ -82,9 +83,9 @@ class StudentRepositoryTest {
         Student student = Student.createStudent("1234-1234","성호창","lo@naver","20180584","1234",department,3);
         studentRepository.save(student);
 
-        studentRepository.delete(student.getId());
-        List<Student> result = studentRepository.findAll();
+        Long deleteId = studentRepository.delete(student.getId());
+        org.junit.jupiter.api.Assertions.assertThrows(NoSuchElementException.class,()->studentRepository.findOne(deleteId).get());
 
-        assertThat(result.size()).isEqualTo(0);
+
     }
 }

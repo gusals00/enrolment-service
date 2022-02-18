@@ -1,11 +1,12 @@
 package jpa.enrolment.repository;
 
 import jpa.enrolment.domain.person.Admin;
-import jpa.enrolment.domain.person.Person;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -17,20 +18,27 @@ public class AdminRepository {
         em.persist(admin);
     }
 
-    public Long login(String id, String pw) {
+    public Long login(String loginId, String loginPw) {
         return em.createQuery("select a from Admin a where a.loginId = :id and a.loginPw = :pw", Admin.class)
-                .setParameter("id", id)
-                .setParameter("pw", pw)
+                .setParameter("id", loginId)
+                .setParameter("pw", loginPw)
                 .getSingleResult()
                 .getId();
     }
 
-    public Admin findOne(Long id) {
-        return em.find(Admin.class, id);
+    public Optional<Admin> findOne(Long id) {
+        return Optional.ofNullable(em.find(Admin.class, id));
     }
 
-    public void delete(Long id) {
+    public Long delete(Long id) {
         Admin deleteAdmin = em.find(Admin.class, id);
         em.remove(deleteAdmin);
+        return id;
+    }
+
+    public List<Admin> findByLoginId(String loginId){
+        return em.createQuery("select  a from Admin a where a.loginId =:loginId ", Admin.class)
+                .setParameter("loginId", loginId)
+                .getResultList();
     }
 }

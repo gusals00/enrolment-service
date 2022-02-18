@@ -31,7 +31,6 @@ public class Professor extends Person {
         labNumber = professorUpdateDTO.getLabNumber();
         phoneNumber = professorUpdateDTO.getPhoneNumber();
         PersonDTO personDTO = new PersonDTO();
-        personDTO.setId(professorUpdateDTO.getId());
         personDTO.setEmail(professorUpdateDTO.getEmail());
         personDTO.setDepartment(professorUpdateDTO.getDepartment());
         personDTO.setLoginId(professorUpdateDTO.getLoginId());

@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,15 +19,17 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class ProfessorRepositoryTest {
 
-    @Autowired ProfessorRepository professorRepository;
-    @Autowired DepartmentRepository departmentRepository;
+    @Autowired
+    ProfessorRepository professorRepository;
+    @Autowired
+    DepartmentRepository departmentRepository;
 
     Department department;
     Professor professor;
 
     @BeforeEach
     public void beforeEach() {
-        department = Department.createDepartment(1,"컴소공");
+        department = Department.createDepartment(1, "컴소공");
         professor = Professor.createProfessor("123-456", "김", "aaa@a", "id", "pw", department, "010", "421");
 
         departmentRepository.save(department);
@@ -34,7 +38,7 @@ class ProfessorRepositoryTest {
 
     @Test
     void save() {
-        assertThat(professorRepository.findOne(professor.getId())).isEqualTo(professor);
+        assertThat(professorRepository.findOne(professor.getId()).get()).isEqualTo(professor);
     }
 
     @Test
@@ -45,6 +49,6 @@ class ProfessorRepositoryTest {
     @Test
     void delete() {
         Long deleteId = professorRepository.delete(professor.getId());
-        assertThat(professorRepository.findOne(deleteId)).isNull();
+        org.junit.jupiter.api.Assertions.assertThrows(NoSuchElementException.class,()->professorRepository.findOne(deleteId).get());
     }
 }

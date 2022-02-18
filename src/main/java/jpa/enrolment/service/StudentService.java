@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -18,9 +19,10 @@ public class StudentService {
     private final StudentRepository studentRepository;
 
     @Transactional
-    public void update(StudentUpdateDTO studentUpdateDTO){
-        Student student = studentRepository.findOne(studentUpdateDTO.getId());
-        student.change(studentUpdateDTO);
+    public Long update(Long id,StudentUpdateDTO studentUpdateDTO){
+        Optional<Student> student = studentRepository.findOne(id);
+        student.get().change(studentUpdateDTO);
+        return student.get().getId();
     }
 
     @Transactional
@@ -30,11 +32,24 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public Student findOne(Long studentId) {
+    public Optional<Student> findOne(Long studentId) {
         return studentRepository.findOne(studentId);
     }
 
     public Long loginStudent(String id, String pw) {
         return studentRepository.login(id, pw);
+    }
+
+    @Transactional
+    public Long joinStudent(Student student){
+        validateLoginId(student.getLoginId());
+        studentRepository.save(student);
+        return student.getId();
+    }
+
+    public void validateLoginId(String loginId){
+        if (!studentRepository.findByLoginId(loginId).isEmpty()) {
+            throw new IllegalStateException("이미 가입된 student가 있습니다.");
+        }
     }
 }
