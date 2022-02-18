@@ -2,11 +2,13 @@ package jpa.enrolment.domain;
 
 import jpa.enrolment.domain.person.Person;
 import jpa.enrolment.domain.person.Professor;
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.*;
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class OpenLecture {
 
     @Id @GeneratedValue
@@ -28,4 +30,11 @@ public class OpenLecture {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "syllabus_id")
     private Syllabus syllabus;
+
+    protected OpenLecture() {
+    }
+
+    public void addProfessor(Professor professor){
+        this.professor = professor;
+    }
 }

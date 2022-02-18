@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LectureRoom {
+
     @Id @GeneratedValue
     @Column(name = "lecture_room_id")
     private Long id;
