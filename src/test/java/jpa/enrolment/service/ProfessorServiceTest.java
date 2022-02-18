@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,7 +44,7 @@ class ProfessorServiceTest {
         Long savedId = professorService.joinProfessor(professor);
         Professor findProfessor = professorService.findOne(savedId).get();
 
-        Assertions.assertThat(savedId).isEqualTo(findProfessor.getId());
+        assertThat(savedId).isEqualTo(findProfessor.getId());
     }
 
     @Test
@@ -56,6 +57,6 @@ class ProfessorServiceTest {
         Professor professor2 = Professor.createProfessor("123-4536", "김3", "aa33a@a", "id", "pw33", department, "01033", "42133");
 
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> professorService.joinProfessor(professor2));
-        Assertions.assertThat(e.getMessage()).isEqualTo("이미 가입된 professor가 있습니다.");
+        assertThat(e.getMessage()).isEqualTo("이미 가입된 professor가 있습니다.");
     }
 }
