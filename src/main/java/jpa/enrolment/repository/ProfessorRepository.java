@@ -35,9 +35,11 @@ public class ProfessorRepository {
                 .getId();
     }
 
-    public void delete(Long id) {
+    public Long delete(Long id) {
         Professor deleteProfessor = em.find(Professor.class, id);
         em.remove(deleteProfessor);
+
+        return id;
     }
 
 }
