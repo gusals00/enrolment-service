@@ -16,7 +16,7 @@ public class Department {
 
     @Id @GeneratedValue
     @Column(name = "department_id")
-    private int id;
+    private Long id;
 
     private int number;
     private String name;
