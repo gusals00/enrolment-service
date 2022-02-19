@@ -5,6 +5,7 @@ import jpa.enrolment.domain.person.Student;
 import jpa.enrolment.dto.StudentUpdateDTO;
 import jpa.enrolment.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class StudentService {
 
     private final StudentRepository studentRepository;
@@ -22,11 +24,10 @@ public class StudentService {
     public Long update(Long id,StudentUpdateDTO studentUpdateDTO){
         Optional<Student> student = studentRepository.findOne(id);
         student.get().change(studentUpdateDTO);
+        log.info("update student id={},loginId={},name={}",student.get().getId(),student.get().getLoginId(),student.get().getName());
         return student.get().getId();
-    }
 
-    @Transactional
-    public void saveStudent(Student student){studentRepository.save(student);}
+    }
 
     public List<Student> findStudent() {
         return studentRepository.findAll();
@@ -44,6 +45,7 @@ public class StudentService {
     public Long joinStudent(Student student){
         validateLoginId(student.getLoginId());
         studentRepository.save(student);
+        log.info("join student id={},loginId={},name={}",student.getId(),student.getLoginId(),student.getName());
         return student.getId();
     }
 

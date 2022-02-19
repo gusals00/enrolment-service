@@ -25,7 +25,7 @@ class AdminServiceTest {
         Department department = Department.createDepartment(1,"컴소공");
         departmentRepository.save(department);
         Admin admin = Admin.createAdmin("1234-1234","admin1","lo@naver","555","111",department);
-        adminService.saveAdmin(admin);
+        adminService.joinAdmin(admin);
 
         AdminUpdateDTO adminUpdateDTO = new AdminUpdateDTO(admin.getSsn(),admin.getName(),admin.getEmail(),"*****","*",department);
         adminService.update(admin.getId(),adminUpdateDTO);

@@ -41,4 +41,5 @@ public class AdminRepository {
                 .setParameter("loginId", loginId)
                 .getResultList();
     }
+
 }

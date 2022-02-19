@@ -6,6 +6,7 @@ import jpa.enrolment.dto.AdminUpdateDTO;
 import jpa.enrolment.dto.ProfessorUpdateDTO;
 import jpa.enrolment.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class AdminService {
 
     private final AdminRepository adminRepository;
@@ -23,11 +25,8 @@ public class AdminService {
     public Long update(Long id, AdminUpdateDTO adminUpdateDTO) {
         Optional<Admin> admin = adminRepository.findOne(id);
         admin.get().change(adminUpdateDTO);
+        log.info("update admin id={},loginId={},name={}",admin.get().getId(),admin.get().getLoginId(),admin.get().getName());
         return admin.get().getId();
-    }
-    @Transactional
-    public void saveAdmin(Admin admin) {
-        adminRepository.save(admin);
     }
 
     public Optional<Admin> findOne(Long adminId) {
@@ -42,6 +41,7 @@ public class AdminService {
     public Long joinAdmin(Admin admin){
         validateLoginId(admin.getLoginId());
         adminRepository.save(admin);
+        log.info("join admin id={},loginId={},name={}",admin.getId(),admin.getLoginId(),admin.getName());
         return admin.getId();
     }
 

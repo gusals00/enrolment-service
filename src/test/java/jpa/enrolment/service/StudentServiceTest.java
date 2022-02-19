@@ -26,7 +26,7 @@ class StudentServiceTest {
         Department department = Department.createDepartment(1,"컴소공");
         departmentRepository.save(department);
         Student student = Student.createStudent("1234-1234","성호창","lo@naver","20180584","1234",department,3);
-        studentService.saveStudent(student);
+        studentService.joinStudent(student);
 
         StudentUpdateDTO studentUpdateDTO = new StudentUpdateDTO(student.getSsn(),student.getName(),student.getEmail(),"1234","01234",department,student.getStudentLevel());
         studentService.update(student.getId(),studentUpdateDTO);
