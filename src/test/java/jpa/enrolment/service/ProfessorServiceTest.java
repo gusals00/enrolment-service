@@ -27,7 +27,7 @@ class ProfessorServiceTest {
         Department department = Department.createDepartment(1,"컴소공");
         Professor professor = Professor.createProfessor("123-456", "김", "aaa@a", "id", "pw", department, "010", "421");
         departmentRepository.save(department);
-        professorService.saveProfessor(professor);
+        professorService.joinProfessor(professor);
 
         ProfessorUpdateDTO professorUpdateDTO = new ProfessorUpdateDTO( professor.getSsn(), professor.getName(), "update", professor.getLoginId(), professor.getLoginPw(), professor.getPhoneNumber(), professor.getLabNumber(), department);
         professorService.update(professor.getId(),professorUpdateDTO);
