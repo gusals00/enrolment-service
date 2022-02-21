@@ -4,12 +4,14 @@ import jpa.enrolment.domain.Department;
 import jpa.enrolment.repository.DepartmentRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@Slf4j
 public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
@@ -20,6 +22,8 @@ public class DepartmentService {
         validateDepartmentNumber(department.getNumber());
 
         departmentRepository.save(department);
+
+        log.info("save department id={},name={},number={}",department.getId(),department.getName(),department.getNumber());
     }
 
     public void validateDepartmentName(String name) {

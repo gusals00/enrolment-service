@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>
+
+</style>
+<body>
+<div th:replace="fragments/adminBodyHeader :: adminBodyHeader"/>
+
+<!-- 교수정보 update form -->
+<form class="row g-3" th:object="${updateForm}" method="post">
+    <div class="col-12">
+        <label class="form-label">이름</label>
+        <input type="text" class="form-control" th:field="*{name}">
+    </div>
+    <div class="col-12">
+        <label class="form-label">주민등록번호</label>
+        <input type="text" class="form-control" th:field="*{ssn}" readonly>
+    </div>
+    <div class="col-12">
+        <label class="form-label">교번</label>
+        <input type="text" class="form-control" th:field="*{loginId}" >
+    </div>
+    <div class="col-12">
+        <label class="form-label">비밀번호</label>
+        <input type="text" class="form-control" th:field="*{loginPw}" readonly>
+    </div>
+    <div class="col-12">
+        <label class="form-label">이메일</label>
+        <input type="text" class="form-control" th:field="*{email}">
+    </div>
+
+    <div class="col-12">
+        <label class="form-label">전화번호</label>
+        <input type="text" class="form-control" th:field="*{phoneNumber}">
+    </div>
+    <div class="col-12">
+        <label class="form-label">연구실번호</label>
+        <input type="text" class="form-control" th:field="*{labNumber}">
+    </div>
+
+    <div class="form-group mx-sm-1 mb-2">
+        <select th:field="*{departmentId}" class="form-control">
+            <option value="">학과</option>
+            <option th:each="department : ${departmentList}"
+                    th:value="${department.departmentId}"
+                    th:text="${department.departmentName}">option
+            </option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">저장</button>
+</form>
+<button  class="btn btn-primary" th:onclick="|location.href='@{/admin/professor}'|">목록으로</button>
+
+
+</body>
+</html>

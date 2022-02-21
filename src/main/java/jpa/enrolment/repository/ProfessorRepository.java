@@ -48,4 +48,16 @@ public class ProfessorRepository {
                 .setParameter("loginId", loginId)
                 .getResultList();
     }
+
+    public List<Professor> findByName(String name) {
+        return em.createQuery("select p from Professor p where p.name like :name", Professor.class)
+                .setParameter("name", "%" + name + "%")
+                .getResultList();
+    }
+
+    public Professor findOneWithDepartment(Long id) {
+        return em.createQuery("select p from Professor p join fetch p.department where p.id=:id", Professor.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
 }
