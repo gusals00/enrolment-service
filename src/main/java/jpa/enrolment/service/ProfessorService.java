@@ -1,8 +1,10 @@
 package jpa.enrolment.service;
 
+import jpa.enrolment.domain.Department;
 import jpa.enrolment.domain.person.Admin;
 import jpa.enrolment.domain.person.Professor;
 import jpa.enrolment.dto.ProfessorUpdateDTO;
+import jpa.enrolment.repository.DepartmentRepository;
 import jpa.enrolment.repository.ProfessorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +21,17 @@ import java.util.Optional;
 public class ProfessorService {
 
     private final ProfessorRepository professorRepository;
-
+    private final DepartmentRepository departmentRepository;
     @Transactional
-    public Long update(Long id,ProfessorUpdateDTO professorUpdateDTO) {
-        Optional<Professor> professor = professorRepository.findOne(id);
-        professor.get().change(professorUpdateDTO);
-        log.info("update professor id={},loginId={},name={}",professor.get().getId(),professor.get().getLoginId(),professor.get().getName());
-        return professor.get().getId();
+    public Long update(Long id,ProfessorUpdateParam professorUpdateParam) {
+        Optional<Professor> findProfessor = professorRepository.findOne(id);
+        Optional<Department> findDepartment = departmentRepository.findById(professorUpdateParam.getDepartmentId());
+        // 교수,학과가 없는거면 어카지??
+
+        ProfessorUpdateDTO professorUpdateDTO = new ProfessorUpdateDTO(professorUpdateParam.getSsn(), professorUpdateParam.getName(), professorUpdateParam.getEmail(), professorUpdateParam.getLoginId(), professorUpdateParam.getLoginPw(), professorUpdateParam.getPhoneNumber(), professorUpdateParam.getLabNumber(), findDepartment.get());
+        findProfessor.get().change(professorUpdateDTO);
+        log.info("update professor id={},loginId={},name={}",findProfessor.get().getId(),findProfessor.get().getLoginId(),findProfessor.get().getName());
+        return findProfessor.get().getId();
     }
 
     public List<Professor> findProfessors() {
@@ -44,6 +50,7 @@ public class ProfessorService {
     public Long joinProfessor(Professor professor){
         validateLoginId(professor.getLoginId());
         professorRepository.save(professor);
+
         log.info("join professor id={},loginId={},name={}",professor.getId(),professor.getLoginId(),professor.getName());
 
         return professor.getId();
@@ -53,5 +60,10 @@ public class ProfessorService {
         if (!professorRepository.findByLoginId(loginId).isEmpty()) {
             throw new IllegalStateException("이미 가입된 professor가 있습니다.");
         }
+    }
+
+    @Transactional
+    public Long delete(Long id){
+        return professorRepository.delete(id);
     }
 }

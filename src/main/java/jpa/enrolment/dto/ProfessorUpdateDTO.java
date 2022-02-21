@@ -3,8 +3,9 @@ package jpa.enrolment.dto;
 import jpa.enrolment.domain.Department;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter @Setter
+@Getter @Setter @ToString
 public class ProfessorUpdateDTO {
 
     private String ssn;
@@ -26,4 +27,6 @@ public class ProfessorUpdateDTO {
         this.labNumber = labNumber;
         this.department = department;
     }
+
+
 }

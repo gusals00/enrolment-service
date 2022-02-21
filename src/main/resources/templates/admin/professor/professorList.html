@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>
+
+</style>
+<body>
+<div th:replace="fragments/adminBodyHeader :: adminBodyHeader"/>
+
+<!-- 검색 -->
+<form class="row g-3" th:object="${professorSearch}">
+    <div class="col-auto">
+        <label for="inputPassword2" class="visually-hidden">Password</label>
+        <input class="form-control" th:field="*{name}" id="inputPassword2" placeholder="이름">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-3">검색</button>
+    </div>
+</form>
+
+<!-- 교수 정보 출력 -->
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">순번</th>
+        <th scope="col">이름</th>
+        <th scope="col">교번</th>
+        <th scope="col">이메일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="professor,index :${professors}">
+        <th scope="row" th:text="${index.index}+1">1</th>
+        <td th:text="${professor.name}">Mark</td>
+        <td th:text="${professor.loginId}">Otto</td>
+        <td th:text="${professor.email}">@mdo</td>
+        <td>
+            <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3" th:onclick="|location.href='@{|/admin/professor/${professor.id}|}'|">상세보기</button>
+        </div></td>
+        <td>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-3" th:onclick="|javascript:deleteProfessor('${professor.id}')|">삭제</button>
+
+            </div></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+<script>
+ function deleteProfessor(id){
+ var form = document.createElement("form");
+ form.setAttribute("method", "post");
+ form.setAttribute("action", "/admin/professor/" + id + "/delete");
+ document.body.appendChild(form);
+ form.submit();
+ }
+
+</script>
+</html>
+

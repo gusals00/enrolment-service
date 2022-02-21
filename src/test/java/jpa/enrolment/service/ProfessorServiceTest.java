@@ -5,11 +5,16 @@ import jpa.enrolment.domain.person.Admin;
 import jpa.enrolment.domain.person.Professor;
 import jpa.enrolment.dto.ProfessorUpdateDTO;
 import jpa.enrolment.repository.DepartmentRepository;
+import jpa.enrolment.repository.ProfessorRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,7 +26,9 @@ class ProfessorServiceTest {
 
     @Autowired ProfessorService professorService;
     @Autowired DepartmentRepository departmentRepository;
-
+    @Autowired EntityManager em;
+    @Autowired
+    ProfessorRepository professorRepository;
     @Test
     void update() {
         Department department = Department.createDepartment(1,"컴소공");
@@ -29,10 +36,13 @@ class ProfessorServiceTest {
         departmentRepository.save(department);
         professorService.joinProfessor(professor);
 
-        ProfessorUpdateDTO professorUpdateDTO = new ProfessorUpdateDTO( professor.getSsn(), professor.getName(), "update", professor.getLoginId(), professor.getLoginPw(), professor.getPhoneNumber(), professor.getLabNumber(), department);
-        professorService.update(professor.getId(),professorUpdateDTO);
+        Professor changeProfessor = Professor.createProfessor(professor.getSsn(), "김222", professor.getEmail(), professor.getLoginId(), professor.getLoginPw(), department, professor.getPhoneNumber(), professor.getLabNumber());
+        ProfessorUpdateParam professorUpdateParam = new ProfessorUpdateParam(changeProfessor);
 
-        assertThat(professor.getEmail()).isEqualTo("update");
+        professorService.update(professor.getId(),professorUpdateParam);
+        Optional<Professor> findProfessor = professorRepository.findOne(professor.getId());
+
+        assertThat(findProfessor.get().getName()).isEqualTo(changeProfessor.getName());
     }
 
     @Test
