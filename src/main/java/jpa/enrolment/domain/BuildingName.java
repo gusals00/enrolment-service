@@ -1,4 +1,4 @@
-package jpa.enrolment.domain.building;
+package jpa.enrolment.domain;
 
 
 public enum BuildingName {

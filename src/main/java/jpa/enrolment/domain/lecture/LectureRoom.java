@@ -1,6 +1,6 @@
 package jpa.enrolment.domain.lecture;
 
-import jpa.enrolment.domain.building.BuildingName;
+import jpa.enrolment.domain.BuildingName;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
