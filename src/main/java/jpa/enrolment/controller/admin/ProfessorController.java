@@ -7,8 +7,6 @@ import jpa.enrolment.domain.person.Professor;
 import jpa.enrolment.repository.DepartmentRepository;
 import jpa.enrolment.repository.ProfessorRepository;
 import jpa.enrolment.service.ProfessorService;
-import jpa.enrolment.service.proefssorQuery.ProfessorQueryDTO;
-import jpa.enrolment.service.proefssorQuery.ProfessorQueryService;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -24,7 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class ProfessorController {
-    private final ProfessorQueryService professorQueryService;
+
     private final ProfessorRepository professorRepository;
     private final ProfessorService professorService;
     private final DepartmentRepository departmentRepository;
@@ -34,14 +32,17 @@ public class ProfessorController {
         log.info("admin.ProfessorController.ProfessorList");
         List<ProfessorQueryDTO> result;
         if(StringUtils.hasText(professorSearch.getName())){ //검색 조건 있는 경우
-            result= professorQueryService.professorSimpleList(professorSearch.getName());
+            result = getProfessorSimpleDTOS(professorSearch.getName());
+
         } else { //모든 교수 조회
-            result = professorQueryService.professorSimpleListAll();
+            result =  getProfessorSimpleDTOS();
         }
+
         log.info("/admin/professor professorList size={}",result.size());
         model.addAttribute("professors",result);
         return "/admin/professor/professorList";
     }
+
 
     @GetMapping("/{professorId}")
     public String professor(@PathVariable("professorId")Long id, Model model){
@@ -85,7 +86,34 @@ public class ProfessorController {
     }
 
 
+    public List<ProfessorQueryDTO> getProfessorSimpleDTOS(String name) {
+        return professorRepository.findByName(name)
+                .stream()
+                .map(p -> new ProfessorQueryDTO(p))
+                .collect(Collectors.toList());
+    }
 
+    public List<ProfessorQueryDTO> getProfessorSimpleDTOS() {
+        return professorRepository.findAll()
+                .stream()
+                .map(p -> new ProfessorQueryDTO(p))
+                .collect(Collectors.toList());
+    }
 
+    @Getter @Setter
+    static class ProfessorQueryDTO {
+
+        private Long id;
+        private String name;
+        private String loginId;
+        private String email;
+
+        public ProfessorQueryDTO(Professor p) {
+            id = p.getId();
+            name = p.getName();
+            loginId = p.getLoginId();
+            email = p.getEmail();
+        }
+    }
 
 }
