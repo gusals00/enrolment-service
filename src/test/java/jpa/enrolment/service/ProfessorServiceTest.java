@@ -1,12 +1,9 @@
 package jpa.enrolment.service;
 
 import jpa.enrolment.domain.Department;
-import jpa.enrolment.domain.person.Admin;
 import jpa.enrolment.domain.person.Professor;
-import jpa.enrolment.dto.ProfessorUpdateDTO;
 import jpa.enrolment.repository.DepartmentRepository;
 import jpa.enrolment.repository.ProfessorRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +13,6 @@ import javax.persistence.EntityManager;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 

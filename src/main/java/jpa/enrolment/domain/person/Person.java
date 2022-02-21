@@ -1,9 +1,8 @@
 package jpa.enrolment.domain.person;
 
 import jpa.enrolment.domain.Department;
-import jpa.enrolment.dto.PersonDTO;
+import jpa.enrolment.domain.person.dto.PersonDTO;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

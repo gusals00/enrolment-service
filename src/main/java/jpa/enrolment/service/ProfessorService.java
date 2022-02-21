@@ -1,9 +1,8 @@
 package jpa.enrolment.service;
 
 import jpa.enrolment.domain.Department;
-import jpa.enrolment.domain.person.Admin;
 import jpa.enrolment.domain.person.Professor;
-import jpa.enrolment.dto.ProfessorUpdateDTO;
+import jpa.enrolment.domain.person.dto.update.ProfessorUpdateDTO;
 import jpa.enrolment.repository.DepartmentRepository;
 import jpa.enrolment.repository.ProfessorRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
-package jpa.enrolment.controller.admin;
+package jpa.enrolment.web.controller.admin;
 
-import jpa.enrolment.controller.DepartmentChooseDTO;
-import jpa.enrolment.controller.ProfessorDetail;
+import jpa.enrolment.web.controller.DepartmentChooseDTO;
+import jpa.enrolment.web.controller.ProfessorDetail;
 import jpa.enrolment.service.ProfessorUpdateParam;
 import jpa.enrolment.domain.person.Professor;
 import jpa.enrolment.repository.DepartmentRepository;

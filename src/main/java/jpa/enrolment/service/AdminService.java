@@ -1,16 +1,13 @@
 package jpa.enrolment.service;
 
 import jpa.enrolment.domain.person.Admin;
-import jpa.enrolment.domain.person.Professor;
-import jpa.enrolment.dto.AdminUpdateDTO;
-import jpa.enrolment.dto.ProfessorUpdateDTO;
+import jpa.enrolment.domain.person.dto.update.AdminUpdateDTO;
 import jpa.enrolment.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

@@ -1,6 +1,7 @@
-package jpa.enrolment.domain;
+package jpa.enrolment.domain.lecture;
 
-import jpa.enrolment.domain.person.Person;
+import jpa.enrolment.domain.Syllabus;
+import jpa.enrolment.domain.lecture.Lecture;
 import jpa.enrolment.domain.person.Professor;
 import lombok.*;
 

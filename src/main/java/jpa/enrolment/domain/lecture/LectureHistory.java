@@ -1,11 +1,10 @@
-package jpa.enrolment.domain;
+package jpa.enrolment.domain.lecture;
 
+import jpa.enrolment.domain.Syllabus;
 import jpa.enrolment.domain.person.Student;
 import lombok.Getter;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import javax.print.attribute.standard.MediaSize;
 
 @Entity
 @Getter

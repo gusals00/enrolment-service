@@ -1,4 +1,4 @@
-package jpa.enrolment.dto;
+package jpa.enrolment.domain.person.dto.update;
 
 import jpa.enrolment.domain.Department;
 import lombok.Getter;

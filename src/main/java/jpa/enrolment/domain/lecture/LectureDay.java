@@ -1,4 +1,4 @@
-package jpa.enrolment.domain;
+package jpa.enrolment.domain.lecture;
 
 import javax.persistence.Embeddable;
 

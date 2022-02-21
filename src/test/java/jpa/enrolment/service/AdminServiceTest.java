@@ -2,14 +2,12 @@ package jpa.enrolment.service;
 
 import jpa.enrolment.domain.Department;
 import jpa.enrolment.domain.person.Admin;
-import jpa.enrolment.domain.person.Student;
-import jpa.enrolment.dto.AdminUpdateDTO;
+import jpa.enrolment.domain.person.dto.update.AdminUpdateDTO;
 import jpa.enrolment.repository.DepartmentRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;

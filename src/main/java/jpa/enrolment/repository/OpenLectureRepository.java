@@ -1,13 +1,11 @@
 package jpa.enrolment.repository;
 
-import jpa.enrolment.domain.OpenLecture;
-import jpa.enrolment.domain.person.Person;
+import jpa.enrolment.domain.lecture.OpenLecture;
 import jpa.enrolment.domain.person.Professor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.util.List;
 
 @Repository
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package jpa.enrolment.controller.admin;
+package jpa.enrolment.web.controller.admin;
 
 import lombok.Getter;
 import lombok.Setter;
