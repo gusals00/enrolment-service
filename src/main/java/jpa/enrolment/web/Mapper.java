@@ -8,7 +8,7 @@ import java.util.Map;
 public class Mapper {
 
     private final static Map<String, String> mapping = Map.of(
-            "admin","/admin/",
+            "admin ","/admin/",
             "professor" ,"/professor/",
             "student","/student/"
     );

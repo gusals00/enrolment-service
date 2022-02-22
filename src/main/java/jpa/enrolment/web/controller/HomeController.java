@@ -29,16 +29,15 @@ public class HomeController {
     public String loginForm(@ModelAttribute("loginForm") LoginForm loginForm, HttpServletRequest request, @RequestParam(defaultValue = "/") String redirectURL){
 
         HttpSession session = request.getSession(false);
-
-
-        if (session == null  ||  session.getAttribute(SessionConst.LOGIN_PERSON)==null) { // 세션 있을 때
-            // 세션 없으면 로그인 페이지로 이동
-            log.info("login.home");
-            return "login";
-        }
         SessionAuth sessionAuth = (SessionAuth) session.getAttribute(SessionConst.LOGIN_PERSON);
-        return "redirect:" + Mapper.getRightURI(sessionAuth.getDtype());
 
+        if (sessionAuth != null) { // 세션 있을 때
+            return "redirect:" + Mapper.getRightURI(sessionAuth.getDtype());
+        }
+
+        // 세션 없으면 로그인 페이지로 이동
+        log.info("login.home");
+        return "login";
     }
 
     @PostMapping("/")
@@ -46,24 +45,16 @@ public class HomeController {
 
         String loginId = loginForm.getLoginId();
         String loginPw = loginForm.getLoginPw();
-
-        log.info("login id=[{}], pw=[{}]",loginId,loginPw);
         SessionAuth loginDTO = null;
-        log.info("sessionAuth [{}],[{}]",sessionAuth.getPersonId(),sessionAuth.getDtype());
+
         if(sessionAuth.getPersonId()==null){ // 세션이 없을 때
-            if(adminRepository.login(loginId,loginPw) != null){
-                log.info("관리자 로그인");
-                loginDTO = adminRepository.login(loginId,loginPw);
+            if((loginDTO = adminRepository.login(loginId,loginPw)) != null){
                 createSession(request, loginDTO);
                 //아이디, 타입
-            } else if ( professorRepository.login(loginId,loginPw) != null){
-                log.info("교수 로그인");
-                loginDTO = professorRepository.login(loginId,loginPw);
+            } else if ((loginDTO = professorRepository.login(loginId,loginPw)) != null){
                 createSession(request, loginDTO);
 
-            } else if(studentRepository.login(loginId,loginPw) != null){
-                log.info("학생 로그인");
-                loginDTO = studentRepository.login(loginId,loginPw);
+            } else if((loginDTO = studentRepository.login(loginId,loginPw)) != null){
                 createSession(request, loginDTO);
 
             } else{
@@ -71,7 +62,7 @@ public class HomeController {
             }
         }
 
-        return "redirect:" + Mapper.getRightURI(loginDTO.getDtype());
+        return "redirect:" + Mapper.getRightURI(sessionAuth.getDtype());
     }
 
     private void createSession(HttpServletRequest request, SessionAuth loginDTO) { // 세션 생성
