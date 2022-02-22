@@ -1,8 +1,7 @@
 package jpa.enrolment.repository;
 
-import jpa.enrolment.domain.person.Admin;
-import jpa.enrolment.domain.person.Professor;
 import jpa.enrolment.domain.person.Student;
+import jpa.enrolment.web.interceptor.SessionAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +27,7 @@ public class StudentRepository {
         return Optional.ofNullable(em.find(Student.class, id));
     }
 
-    public Long login(String loginId, String loginPw) {
+    public SessionAuth login(String loginId, String loginPw) {
         List<Student> result = em.createQuery("select s from Student s where s.loginId = :id and s.loginPw = :pw", Student.class)
                 .setParameter("id", loginId)
                 .setParameter("pw", loginPw)
@@ -37,7 +36,7 @@ public class StudentRepository {
         if(result.isEmpty())
             return null;
         else
-            return result.get(0).getId();
+            return new SessionAuth(result.get(0).getId(), "student");
 
     }
 

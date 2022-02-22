@@ -36,10 +36,6 @@ public class StudentService {
         return studentRepository.findOne(studentId);
     }
 
-    public Long loginStudent(String id, String pw) {
-        return studentRepository.login(id, pw);
-    }
-
     @Transactional
     public Long joinStudent(Student student){
         validateLoginId(student.getLoginId());

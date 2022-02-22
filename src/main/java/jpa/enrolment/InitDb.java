@@ -1,6 +1,7 @@
 package jpa.enrolment;
 
 import jpa.enrolment.domain.Department;
+import jpa.enrolment.domain.person.Admin;
 import jpa.enrolment.domain.person.Professor;
 import jpa.enrolment.service.DepartmentService;
 import jpa.enrolment.service.ProfessorService;
