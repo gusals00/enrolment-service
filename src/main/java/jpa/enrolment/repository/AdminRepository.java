@@ -19,11 +19,17 @@ public class AdminRepository {
     }
 
     public Long login(String loginId, String loginPw) {
-        return em.createQuery("select a from Admin a where a.loginId = :id and a.loginPw = :pw", Admin.class)
+
+        List<Admin> result = em.createQuery("select a from Admin a where a.loginId = :id and a.loginPw = :pw", Admin.class)
                 .setParameter("id", loginId)
                 .setParameter("pw", loginPw)
-                .getSingleResult()
-                .getId();
+                .getResultList();
+
+        if(result.isEmpty())
+            return null;
+        else
+            return result.get(0).getId();
+
     }
 
     public Optional<Admin> findOne(Long id) {

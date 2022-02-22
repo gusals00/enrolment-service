@@ -29,11 +29,15 @@ public class StudentRepository {
     }
 
     public Long login(String loginId, String loginPw) {
-        return em.createQuery("select s from Student s where s.loginId = :id and s.loginPw = :pw", Student.class)
+        List<Student> result = em.createQuery("select s from Student s where s.loginId = :id and s.loginPw = :pw", Student.class)
                 .setParameter("id", loginId)
                 .setParameter("pw", loginPw)
-                .getSingleResult()
-                .getId();
+                .getResultList();
+
+        if(result.isEmpty())
+            return null;
+        else
+            return result.get(0).getId();
 
     }
 
