@@ -31,7 +31,7 @@ public class InitDb {
 
         public void professorInitDb(){
             Department department = Department.createDepartment(1,"토목");
-            Professor professor = Professor.createProfessor("123-456", "강현민", "aaa@a", "id123", "pw3333", department, "010", "4231");
+            Professor professor = Professor.createProfessor("123-456", "강현민", "aaa@a", "111", "111", department, "010", "4231");
             departmentService.saveDepartment(department);
             professorService.joinProfessor(professor);
 
