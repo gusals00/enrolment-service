@@ -41,7 +41,7 @@ public class HomeController {
         if(redirectURL.equals("/")){
             return "redirect:" + Mapper.getRightURI(sessionAuth.getDtype());
         }
-        else{
+        else{//redirectURL이 있는 경우
             return "redirect:"+redirectURL;
         }
     }
