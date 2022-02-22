@@ -29,11 +29,15 @@ public class ProfessorRepository {
     }
 
     public Long login(String loginId, String loginPw) {
-        return em.createQuery("select p from Professor p where p.loginId = :id and p.loginPw = :pw", Professor.class)
+        List<Professor> result = em.createQuery("select p from Professor p where p.loginId = :id and p.loginPw = :pw", Professor.class)
                 .setParameter("id", loginId)
                 .setParameter("pw", loginPw)
-                .getSingleResult()
-                .getId();
+                .getResultList();
+
+        if(result.isEmpty())
+            return null;
+        else
+            return result.get(0).getId();
     }
 
     public Long delete(Long id) {
