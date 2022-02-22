@@ -29,9 +29,9 @@ public class HomeController {
     public String loginForm(@ModelAttribute("loginForm") LoginForm loginForm, HttpServletRequest request, @RequestParam(defaultValue = "/") String redirectURL){
 
         HttpSession session = request.getSession(false);
-        SessionAuth sessionAuth = (SessionAuth) session.getAttribute(SessionConst.LOGIN_PERSON);
 
-        if (sessionAuth != null) { // 세션 있을 때
+        if (session != null) { // 세션 있을 때
+            SessionAuth sessionAuth = (SessionAuth) session.getAttribute(SessionConst.LOGIN_PERSON);
             return "redirect:" + Mapper.getRightURI(sessionAuth.getDtype());
         }
 
@@ -47,22 +47,25 @@ public class HomeController {
         String loginPw = loginForm.getLoginPw();
         SessionAuth loginDTO = null;
 
-        if(sessionAuth.getPersonId()==null){ // 세션이 없을 때
-            if((loginDTO = adminRepository.login(loginId,loginPw)) != null){
+        if(sessionAuth.getPersonId() == null){ // 세션이 없을 때
+            if((loginDTO =adminRepository.login(loginId,loginPw)) != null){
                 createSession(request, loginDTO);
                 //아이디, 타입
-            } else if ((loginDTO = professorRepository.login(loginId,loginPw)) != null){
+            } else if ((loginDTO =professorRepository.login(loginId,loginPw)) != null){
                 createSession(request, loginDTO);
 
-            } else if((loginDTO = studentRepository.login(loginId,loginPw)) != null){
+            } else if((loginDTO =studentRepository.login(loginId,loginPw)) != null){
                 createSession(request, loginDTO);
 
             } else{
                 return "redirect:/";
             }
         }
+        else{
+            return "redirect:" + Mapper.getRightURI(sessionAuth.getDtype());
+        }
 
-        return "redirect:" + Mapper.getRightURI(sessionAuth.getDtype());
+        return "redirect:" + Mapper.getRightURI(loginDTO.getDtype());
     }
 
     private void createSession(HttpServletRequest request, SessionAuth loginDTO) { // 세션 생성

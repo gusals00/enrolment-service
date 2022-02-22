@@ -34,8 +34,9 @@ public class ProfessorRepository {
                 .setParameter("pw", loginPw)
                 .getResultList();
 
-        if(result.isEmpty())
+        if(result.isEmpty()) {
             return null;
+        }
         else
             return new SessionAuth(result.get(0).getId(), "professor");
     }
