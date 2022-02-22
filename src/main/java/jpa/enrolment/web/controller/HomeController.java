@@ -11,6 +11,7 @@ import jpa.enrolment.web.interceptor.SessionAuth;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,41 +31,47 @@ public class HomeController {
 
         HttpSession session = request.getSession(false);
 
-        if (session != null) { // 세션 있을 때
-            SessionAuth sessionAuth = (SessionAuth) session.getAttribute(SessionConst.LOGIN_PERSON);
+        if (session == null || session.getAttribute(SessionConst.LOGIN_PERSON)==null ) {
+            // 세션 없으면 로그인 페이지로 이동
+            log.info("login.home");
+            return "login";
+        }
+        SessionAuth sessionAuth = (SessionAuth) session.getAttribute(SessionConst.LOGIN_PERSON);
+
+        if(redirectURL.equals("/")){
             return "redirect:" + Mapper.getRightURI(sessionAuth.getDtype());
         }
-
-        // 세션 없으면 로그인 페이지로 이동
-        log.info("login.home");
-        return "login";
+        else{
+            return "redirect:"+redirectURL;
+        }
     }
 
     @PostMapping("/")
-    public String login(@ModelAttribute("loginForm") LoginForm loginForm, @Login SessionAuth sessionAuth , HttpServletRequest request){
+    public String login(@ModelAttribute("loginForm") LoginForm loginForm, @Login SessionAuth sessionAuth , @RequestParam(defaultValue = "/") String redirectURL,HttpServletRequest request){
 
         String loginId = loginForm.getLoginId();
         String loginPw = loginForm.getLoginPw();
         SessionAuth loginDTO = null;
 
-        if(sessionAuth.getPersonId() == null){ // 세션이 없을 때
-            if((loginDTO =adminRepository.login(loginId,loginPw)) != null){
-                createSession(request, loginDTO);
-                //아이디, 타입
-            } else if ((loginDTO =professorRepository.login(loginId,loginPw)) != null){
-                createSession(request, loginDTO);
+        if(adminRepository.login(loginId,loginPw) != null){
+            loginDTO =adminRepository.login(loginId,loginPw);
+            createSession(request, loginDTO);
+            //아이디, 타입
+        } else if (professorRepository.login(loginId,loginPw) != null){
+            loginDTO =professorRepository.login(loginId,loginPw);
+            createSession(request, loginDTO);
 
-            } else if((loginDTO =studentRepository.login(loginId,loginPw)) != null){
-                createSession(request, loginDTO);
+        } else if(studentRepository.login(loginId,loginPw) != null){
+            loginDTO =studentRepository.login(loginId,loginPw);
+            createSession(request, loginDTO);
 
-            } else{
-                return "redirect:/";
-            }
-        }
-        else{
-            return "redirect:" + Mapper.getRightURI(sessionAuth.getDtype());
+        } else{
+            return "redirect:/";
         }
 
+        if(!redirectURL.equals("/")){//redirect URL이 있을 경우
+            return "redirect:"+redirectURL;
+        }
         return "redirect:" + Mapper.getRightURI(loginDTO.getDtype());
     }
 
