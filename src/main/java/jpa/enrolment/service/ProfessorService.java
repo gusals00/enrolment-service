@@ -41,10 +41,6 @@ public class ProfessorService {
         return professorRepository.findOne(professorId);
     }
 
-    public Long loginProfessor(String id, String pw) {
-        return professorRepository.login(id, pw);
-    }
-
     @Transactional
     public Long joinProfessor(Professor professor){
         validateLoginId(professor.getLoginId());

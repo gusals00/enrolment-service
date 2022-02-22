@@ -30,10 +30,6 @@ public class AdminService {
         return adminRepository.findOne(adminId);
     }
 
-    public Long loginAdmin(String id, String pw) {
-        return adminRepository.login(id, pw);
-    }
-
     @Transactional
     public Long joinAdmin(Admin admin){
         validateLoginId(admin.getLoginId());

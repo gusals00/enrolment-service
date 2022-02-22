@@ -1,5 +1,6 @@
 package jpa.enrolment.web.interceptor;
 
+import jpa.enrolment.web.Mapper;
 import jpa.enrolment.web.SessionConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.PatternMatchUtils;
@@ -15,12 +16,6 @@ import java.util.UUID;
 @Slf4j
 public class LoginCheckInterceptor implements HandlerInterceptor {
 
-    private Map<String, String> mapping = new HashMap<>();
-
-    public LoginCheckInterceptor() {
-        initMapping();
-    }
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession(false);
@@ -31,7 +26,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         if(session == null || session.getAttribute(SessionConst.LOGIN_PERSON) ==null){
             log.info("미인증 사용자 요청");
 
-            response.sendRedirect("/");
+            response.sendRedirect("/?redirectURL=" + requestURI);
             return false;
         }
 
@@ -41,22 +36,13 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         }
 
         log.info("권한 없는 URI에 접근");
-        response.sendRedirect(getRightURI(authAttribute.getDtype()));
+        response.sendRedirect(Mapper.getRightURI(authAttribute.getDtype()));
         return false;
 
     }
 
     private boolean isRightAccess(String dtype,String requestURI) {
-        return PatternMatchUtils.simpleMatch(mapping.get(dtype)+"*",requestURI);
+        return PatternMatchUtils.simpleMatch(Mapper.getRightURI(dtype)+"*",requestURI);
     }
 
-    private void initMapping(){
-        mapping.put("admin ","/admin/");
-        mapping.put("professor" ,"/professor/");
-        mapping.put("student","/student/");
-    }
-
-    private String getRightURI(String dtype){
-        return mapping.get(dtype);
-    }
 }
