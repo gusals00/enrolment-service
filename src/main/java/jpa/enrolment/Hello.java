@@ -1,13 +1,16 @@
 package jpa.enrolment;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 public class Hello {
     public static void main(String[] args) {
-        test();
+
+        List<Integer> list = new ArrayList<>();
+        Optional<Integer> first = list.stream().findFirst();
+        System.out.println(first);
+        first.get();
     }
 
-    public static void test(Item... item){
-        System.out.println(1);
-    }
-
-    static class Item{}
 }
