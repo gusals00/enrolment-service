@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -24,14 +25,10 @@ public class OpenLectureRepository {
         return Optional.ofNullable(em.find(OpenLecture.class, openLectureId));
     }
 
-    public void checkDuplicatedLecture(Long lectureId, int seperatedNumber) {
-        int firstResult = em.createQuery("select ol from OpenLecture ol join ol.lecture l where l.id = :lectureId and ol.seperatedNumber = :seperatedNumber")
+    public List<OpenLecture> findByLectureIdAndSeperatedNumber(Long lectureId, int seperatedNumber) { // 교과목 id, 분반으로 개설교과목 찾기
+        return em.createQuery("select ol from OpenLecture ol join ol.lecture l where l.id = :lectureId and ol.seperatedNumber = :seperatedNumber")
                 .setParameter("lectureId", lectureId)
                 .setParameter("seperatedNumber", seperatedNumber)
-                .getFirstResult();
-
-        if (firstResult != 0) {
-            throw new IllegalStateException("존재하는 분반이 있습니다");
-        }
+                .getResultList();
     }
 }

@@ -59,10 +59,10 @@ class StudentRepositoryTest {
         departmentRepository.save(department);
         Student student = Student.createStudent("1234-1234","성호창","lo@naver","20180584","1234",department,3);
         studentRepository.save(student);
-//
-//        Long loginStudentId = studentRepository.login(student.getLoginId(), student.getLoginPw());
-//
-//        assertThat(student.getId()).isEqualTo(loginStudentId);
+
+        Long savedId = studentRepository.login(student.getLoginId(), student.getLoginPw()).getPersonId();
+
+        assertThat(student.getId()).isEqualTo(savedId);
     }
 
     @Test
@@ -72,7 +72,7 @@ class StudentRepositoryTest {
         Student student = Student.createStudent("1234-1234","성호창","lo@naver","20180584","1234",department,3);
         studentRepository.save(student);
 
-        Assertions.assertThrows(EmptyResultDataAccessException.class,()->studentRepository.login(student.getLoginId(), "2sf"));
+        org.assertj.core.api.Assertions.assertThat(studentRepository.login(student.getLoginId(), "2sf")).isNull();
 
     }
 
