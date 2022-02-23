@@ -47,22 +47,19 @@ public class HomeController {
     }
 
     @PostMapping("/")
-    public String login(@ModelAttribute("loginForm") LoginForm loginForm, @Login SessionAuth sessionAuth , @RequestParam(defaultValue = "/") String redirectURL,HttpServletRequest request){
+    public String login(@ModelAttribute("loginForm") LoginForm loginForm, @Login SessionAuth sessionAuth , @RequestParam(defaultValue = "/") String redirectURL, HttpServletRequest request){
 
         String loginId = loginForm.getLoginId();
         String loginPw = loginForm.getLoginPw();
         SessionAuth loginDTO = null;
 
-        if(adminRepository.login(loginId,loginPw) != null){
-            loginDTO =adminRepository.login(loginId,loginPw);
+        if((loginDTO = adminRepository.login(loginId,loginPw)) != null){
             createSession(request, loginDTO);
             //아이디, 타입
-        } else if (professorRepository.login(loginId,loginPw) != null){
-            loginDTO =professorRepository.login(loginId,loginPw);
+        } else if ((loginDTO = professorRepository.login(loginId,loginPw)) != null){
             createSession(request, loginDTO);
 
-        } else if(studentRepository.login(loginId,loginPw) != null){
-            loginDTO =studentRepository.login(loginId,loginPw);
+        } else if((loginDTO = studentRepository.login(loginId,loginPw)) != null){
             createSession(request, loginDTO);
 
         } else{
