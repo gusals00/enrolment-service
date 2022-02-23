@@ -42,8 +42,8 @@ class AdminRepositoryTest {
         Admin admin = Admin.createAdmin("1234-1234","admin1","lo@naver","555","111",department);
         adminRepository.save(admin);
 
-//        Long loginAdminId = adminRepository.login(admin.getLoginId(), admin.getLoginPw());
-//        assertThat(admin.getId()).isEqualTo(loginAdminId);
+        Long savedId = adminRepository.login(admin.getLoginId(), admin.getLoginPw()).getPersonId();
+        assertThat(admin.getId()).isEqualTo(savedId);
     }
 
     @Test
@@ -54,7 +54,7 @@ class AdminRepositoryTest {
         Admin admin = Admin.createAdmin("1234-1234","admin1","lo@naver","555","111",department);
         adminRepository.save(admin);
 
-        Assertions.assertThrows(EmptyResultDataAccessException.class,()->adminRepository.login(admin.getLoginId(), "2555"));
+        org.assertj.core.api.Assertions.assertThat(adminRepository.login(admin.getLoginId(), "2555")).isNull();
 
     }
 

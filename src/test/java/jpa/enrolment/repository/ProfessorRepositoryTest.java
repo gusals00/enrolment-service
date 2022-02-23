@@ -44,7 +44,7 @@ class ProfessorRepositoryTest {
 
     @Test
     void login() {
-        assertThat(professorRepository.login(professor.getLoginId(), professor.getLoginPw())).isEqualTo(professor.getId());
+        assertThat(professorRepository.login(professor.getLoginId(), professor.getLoginPw()).getPersonId()).isEqualTo(professor.getId());
     }
 
     @Test

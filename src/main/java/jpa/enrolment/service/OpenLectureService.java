@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +27,7 @@ public class OpenLectureService {
         Professor professor = professorRepository.findOne(professorId).orElseThrow(() -> new IllegalStateException("찾으려는 professor가 없음"));
         Lecture lecture = lectureRepository.findOne(lectureId).orElseThrow(() -> new IllegalStateException("찾으려는 lecture가 없음"));
 
-        openLectureRepository.checkDuplicatedLecture(lectureId, seperatedNumber); // 중복시 예외 터트림
+        checkDuplicatedSeperatedNumber(lectureId, seperatedNumber); // 중복시 예외 터트림(분반 중복 확인)
 
         // 교수 시간 중복 확인
 
@@ -45,11 +45,11 @@ public class OpenLectureService {
         Professor professor = professorRepository.findOne(professorId).orElseThrow(() -> new IllegalStateException("찾으려는 professor가 없음"));
         // 교수는 openlecture 만드는 창에서 이름 검색후 선택해서 id가 들어가게 만들 예정
 
-        validateStudentNumber(maxStudentNumber, curStudentNumber);
+        validateStudentNumber(maxStudentNumber, curStudentNumber);//최대인원<현재인원 확인
 
         // 교수 시간 중복 확인
 
-        openLectureRepository.checkDuplicatedLecture(lecture.getId(), seperatedNumber);
+        checkDuplicatedSeperatedNumber(lecture.getId(), seperatedNumber); // 분반 중복 확인
 
         OpenLecture openLecture = OpenLecture.builder()
                 .lecture(lecture)
@@ -66,6 +66,12 @@ public class OpenLectureService {
         if (curStudentNumber > maxStudentNumber) {
             throw new IllegalStateException("현재 학생수가 최대 학생수보다 많음");
         }
+    }
+
+    private void checkDuplicatedSeperatedNumber(Long lectureId, int seperatedNumber){
+        List<OpenLecture> findOpenLectures = openLectureRepository.findByLectureIdAndSeperatedNumber(lectureId, seperatedNumber);
+        if(!findOpenLectures.isEmpty())
+            throw new IllegalStateException("존재하는 분반이 있습니다");
     }
 
     public void updateSyllabus() {

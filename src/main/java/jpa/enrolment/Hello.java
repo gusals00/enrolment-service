@@ -10,7 +10,6 @@ public class Hello {
         List<Integer> list = new ArrayList<>();
         Optional<Integer> first = list.stream().findFirst();
         System.out.println(first);
-        first.get();
     }
 
 }
