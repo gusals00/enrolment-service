@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -22,8 +23,14 @@ public class LectureRepository {
                 .getResultList();
     }
 
-    public Lecture findOne(Long id) {
-        return em.find(Lecture.class, id);
+    public Optional<Lecture> findOne(Long id) {
+        return Optional.ofNullable(em.find(Lecture.class, id));
+    }
+
+    public Optional<Lecture> findByCode(String code) {
+        return em.createQuery("select l from Lecture l where l.code = :code")
+                .setParameter("code", code)
+                .getResultList().stream().findFirst();
     }
 
     public Long delete(Long id) {

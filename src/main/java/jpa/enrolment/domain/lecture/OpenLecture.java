@@ -35,7 +35,21 @@ public class OpenLecture {
     protected OpenLecture() {
     }
 
-    public void addProfessor(Professor professor){
+    public void changeProfessor(Professor professor){
         this.professor = professor;
+    }
+
+    public void changeLecture(Lecture lecture) {
+        this.lecture = lecture;
+    }
+
+    public void changeSyllabus(Syllabus syllabus) {
+        this.syllabus = syllabus;
+    }
+
+    public void changeNumber(int seperatedNumber, int maxStudentNumber, int curStudentNumber) {
+        this.seperatedNumber = seperatedNumber;
+        this.maxStudentNumber = maxStudentNumber;
+        this.curStudentNumber = curStudentNumber;
     }
 }

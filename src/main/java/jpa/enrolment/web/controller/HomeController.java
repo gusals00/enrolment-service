@@ -47,7 +47,7 @@ public class HomeController {
     }
 
     @PostMapping("/")
-    public String login(@ModelAttribute("loginForm") LoginForm loginForm, @Login SessionAuth sessionAuth , @RequestParam(defaultValue = "/") String redirectURL, HttpServletRequest request){
+    public String login(@ModelAttribute("loginForm") LoginForm loginForm, @RequestParam(defaultValue = "/") String redirectURL, HttpServletRequest request){
 
         String loginId = loginForm.getLoginId();
         String loginPw = loginForm.getLoginPw();

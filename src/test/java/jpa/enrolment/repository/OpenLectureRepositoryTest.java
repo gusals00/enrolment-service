@@ -31,7 +31,6 @@ class OpenLectureRepositoryTest {
 
         Professor professor = Professor.createProfessor("123-456", "김", "aaa@a", "id", "pw", null, "010", "421");
         em.persist(professor);
-        openLectureRepository.addProfessor(openLecture.getId(), professor);
 
     }
 
