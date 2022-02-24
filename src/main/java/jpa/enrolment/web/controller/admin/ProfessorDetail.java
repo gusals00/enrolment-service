@@ -1,4 +1,4 @@
-package jpa.enrolment.web.controller;
+package jpa.enrolment.web.controller.admin;
 
 import jpa.enrolment.domain.person.Professor;
 import lombok.Getter;

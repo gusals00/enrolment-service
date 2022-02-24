@@ -1,5 +1,6 @@
 package jpa.enrolment.repository;
 
+import jpa.enrolment.domain.person.Professor;
 import jpa.enrolment.domain.person.Student;
 import jpa.enrolment.web.interceptor.SessionAuth;
 import lombok.RequiredArgsConstructor;
@@ -51,4 +52,17 @@ public class StudentRepository {
                 .setParameter("loginId", loginId)
                 .getResultList();
     }
+
+    public List<Student> findByName(String name) {
+        return em.createQuery("select s from Student s where s.name like :name", Student.class)
+                .setParameter("name", "%" + name + "%")
+                .getResultList();
+    }
+
+    public Student findOneWithDepartment(Long id) {
+        return em.createQuery("select s from Student s join fetch s.department where s.id=:id", Student.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
 }

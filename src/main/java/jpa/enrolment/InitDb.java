@@ -3,9 +3,11 @@ package jpa.enrolment;
 import jpa.enrolment.domain.Department;
 import jpa.enrolment.domain.person.Admin;
 import jpa.enrolment.domain.person.Professor;
+import jpa.enrolment.domain.person.Student;
 import jpa.enrolment.service.AdminService;
 import jpa.enrolment.service.DepartmentService;
 import jpa.enrolment.service.ProfessorService;
+import jpa.enrolment.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,10 +32,11 @@ public class InitDb {
         private final ProfessorService professorService;
         private final DepartmentService departmentService;
         private final AdminService adminService;
+        private final StudentService studentService;
 
         public void professorInitDb(){
             Department department = Department.createDepartment(1,"토목");
-            Professor professor = Professor.createProfessor("123-456", "강현민", "aaa@a", "111", "111", department, "010", "4231");
+            Professor professor = Professor.createProfessor("123-456", "강현민", "aaa@a", "555", "555", department, "010", "4231");
             departmentService.saveDepartment(department);
             professorService.joinProfessor(professor);
 
@@ -44,6 +47,9 @@ public class InitDb {
 
             Admin admin = Admin.createAdmin("123-456", "강현민", "aaa@a", "111", "111", null);
             adminService.joinAdmin(admin);
+
+            Student student = Student.createStudent("123-456", "강현민", "aaa@a", "333", "333", department, 3);
+            studentService.joinStudent(student);
         }
 
     }
