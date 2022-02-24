@@ -20,6 +20,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Link</a>
                         </li>
+
+                        <!-- 교수  -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 교수관리
@@ -27,6 +29,21 @@
                             <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
                                 <li><a class="dropdown-item" href="#" th:href="@{/admin/professor/new}">교수생성</a></li>
                                 <li><a class="dropdown-item" href="#" th:href="@{/admin/professor}">교수조회,수정,삭제</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- 학생  -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                학생관리
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
+                                <li><a class="dropdown-item" href="#" th:href="@{/admin/student/new}">학생생성</a></li>
+                                <li><a class="dropdown-item" href="#" th:href="@{/admin/student}">학생조회,수정,삭제</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
