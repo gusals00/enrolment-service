@@ -38,7 +38,6 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         log.info("권한 없는 URI에 접근");
         response.sendRedirect(Mapper.getRightURI(authAttribute.getDtype()));
         return false;
-
     }
 
     private boolean isRightAccess(String dtype,String requestURI) {

@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+// 학생 조회, 수정 생성
+
 @Entity
 @Getter
 @Builder

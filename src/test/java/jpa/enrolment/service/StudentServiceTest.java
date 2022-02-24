@@ -26,13 +26,15 @@ class StudentServiceTest {
         Student student = Student.createStudent("1234-1234","성호창","lo@naver","20180584","1234",department,3);
         studentService.joinStudent(student);
 
-        StudentUpdateDTO studentUpdateDTO = new StudentUpdateDTO(student.getSsn(),student.getName(),student.getEmail(),"1234","01234",department,student.getStudentLevel());
-        studentService.update(student.getId(),studentUpdateDTO);
+        StudentUpdateParam studentUpdateParam = new StudentUpdateParam(student);
+        studentUpdateParam.setLoginId("1234");
+        studentUpdateParam.setLoginPw("01234");
+
+        studentService.update(student.getId(),studentUpdateParam);
 
         Student updatedStudent = studentService.findOne(student.getId()).get();
         Assertions.assertThat(updatedStudent.getLoginId()).isEqualTo("1234");//로그인아이디(학번) 변경 확인
         Assertions.assertThat(updatedStudent.getLoginPw()).isEqualTo("01234");//비번 변경 확인
-
     }
 
     @Test

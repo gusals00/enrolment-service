@@ -72,7 +72,19 @@ public class HomeController {
         return "redirect:" + Mapper.getRightURI(loginDTO.getDtype());
     }
 
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if(session != null) {
+            session.invalidate();
+        }
+
+        return "redirect:/";
+    }
+
     private void createSession(HttpServletRequest request, SessionAuth loginDTO) { // 세션 생성
+
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_PERSON, loginDTO);
     }
