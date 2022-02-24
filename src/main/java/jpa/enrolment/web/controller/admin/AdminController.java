@@ -1,9 +1,12 @@
 package jpa.enrolment.web.controller.admin;
 
+import jpa.enrolment.domain.Period;
+import jpa.enrolment.domain.PeriodName;
 import jpa.enrolment.domain.person.Person;
 import jpa.enrolment.domain.person.Professor;
 import jpa.enrolment.domain.person.Student;
 import jpa.enrolment.repository.DepartmentRepository;
+import jpa.enrolment.repository.PeriodRepository;
 import jpa.enrolment.repository.ProfessorRepository;
 import jpa.enrolment.repository.StudentRepository;
 import jpa.enrolment.service.ProfessorService;
@@ -11,15 +14,16 @@ import jpa.enrolment.service.ProfessorUpdateParam;
 import jpa.enrolment.service.StudentService;
 import jpa.enrolment.service.StudentUpdateParam;
 import jpa.enrolment.web.controller.DepartmentChooseDTO;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +38,7 @@ public class AdminController {
     private final DepartmentRepository departmentRepository;
     private final StudentRepository studentRepository;
     private final StudentService studentService;
+    private final PeriodRepository periodRepository;
 
     @GetMapping("/")
     public String adminHome(){
@@ -137,6 +142,34 @@ public class AdminController {
     }
 
 
+    @GetMapping("/syllabus-time")
+    public String syllabusTimeForm(Model model){
+
+        SyllabusTime syllabusTime;
+        List<Period> byPeriodName = periodRepository.findByPeriodName(PeriodName.SYLLABUS);
+        if (byPeriodName.isEmpty()){ // 설정된 강의계획서 입력기간이 없을 때
+            syllabusTime = new SyllabusTime();
+        }
+        else{ // 설정된 강의계획서 입력기간이 있을 때
+            Period period = byPeriodName.stream().findFirst().get();
+            syllabusTime = new SyllabusTime(String.valueOf(period.getOpenTime().withNano(0)),String.valueOf(period.getCloseTime().withNano(0)));
+        }
+
+
+        model.addAttribute("syllabusTime",syllabusTime);
+        return "/admin/syllabusTime";
+    }
+
+    @PostMapping("/syllabus-time")
+    public String syllabusTimeEdit(@ModelAttribute("syllabusTime") SyllabusTime syllabusTime, Model model){
+
+        log.info("syllabusTime : openTime={}, closeTime={}",syllabusTime.getOpenTime(),syllabusTime.getCloseTime());
+
+        // entity에 넣어주면 됨
+        return "redirect:/admin/";
+    }
+
+
     public List<DepartmentChooseDTO> changeDepartmentChooseDTOS() {
         List<DepartmentChooseDTO> departmentChooseList = departmentRepository.findAll().stream()
                 .map(d -> new DepartmentChooseDTO(d))
@@ -186,5 +219,15 @@ public class AdminController {
             loginId = p.getLoginId();
             email = p.getEmail();
         }
+    }
+
+    @Getter @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static class SyllabusTime{
+
+        private String openTime;
+        private String closeTime;
+
     }
 }
