@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div class="body-header" th:fragment="adminBodyHeader">
+
+
+
     <nav class="navbar navbar-light bg-light fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand navbar-name" href="#" th:href="@{/admin/professor}">수강신청</a> <!-- 관리자 수강신청 홈 -->
@@ -50,14 +53,36 @@
                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
                             </ul>
                         </li>
+
+                        <!-- 기간설정 -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                기간설정관리
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
+                                <li><a class="dropdown-item" href="#" th:href="@{/admin/syllabus-time}">강의계획서 입력기간 설정</a></li>
+                                <li><a class="dropdown-item" href="#" th:href="@{/admin/enrolment-time}">학년별 수강신청 가능기간 설정</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <form class="d-flex">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
+
+                    <form action="/logout" method="post">
+                        <button class="btn btn-primary" type="submit">로그아웃 테스트</button>
+                    </form>
+
                 </div>
             </div>
         </div>
     </nav>
 
+
 </div>
+
