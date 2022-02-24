@@ -85,7 +85,7 @@ public class AdminController {
     }
 
     @PostMapping("/professor{professorId}/delete")
-    public String delete(@PathVariable("professorId")Long id){
+    public String deleteProfessor(@PathVariable("professorId")Long id){
         professorService.delete(id);
         return "redirect:/admin/professor";
     }
@@ -128,6 +128,12 @@ public class AdminController {
         studentService.update(id, updateForm);
 
         return "redirect:/admin/student/{studentId}";
+    }
+
+    @PostMapping("/student/{studentId}/delete")
+    public String deleteStudent(@PathVariable("studentId")Long id){
+        studentService.deleteStudent(id);
+        return "redirect:/admin/student";
     }
 
 

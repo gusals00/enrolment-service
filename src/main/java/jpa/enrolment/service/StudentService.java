@@ -56,4 +56,9 @@ public class StudentService {
         }
     }
 
+    @Transactional
+    public Long deleteStudent(Long studentId) {
+        return studentRepository.delete(studentId);
+    }
+
 }
