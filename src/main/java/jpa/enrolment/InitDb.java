@@ -1,18 +1,17 @@
 package jpa.enrolment;
 
 import jpa.enrolment.domain.Department;
+import jpa.enrolment.domain.PeriodName;
 import jpa.enrolment.domain.person.Admin;
 import jpa.enrolment.domain.person.Professor;
 import jpa.enrolment.domain.person.Student;
-import jpa.enrolment.service.AdminService;
-import jpa.enrolment.service.DepartmentService;
-import jpa.enrolment.service.ProfessorService;
-import jpa.enrolment.service.StudentService;
+import jpa.enrolment.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
@@ -23,7 +22,9 @@ public class InitDb {
     @PostConstruct
     public void init(){
         initService.professorInitDb();
+        initService.PeriodInitDb();
     }
+
     @Component
     @RequiredArgsConstructor
     @Transactional
@@ -33,6 +34,7 @@ public class InitDb {
         private final DepartmentService departmentService;
         private final AdminService adminService;
         private final StudentService studentService;
+        private final PeriodService periodService;
 
         public void professorInitDb(){
             Department department = Department.createDepartment(1,"토목");
@@ -50,6 +52,11 @@ public class InitDb {
 
             Student student = Student.createStudent("123-456", "강현민", "aaa@a", "333", "333", department, 3);
             studentService.joinStudent(student);
+
+        }
+
+        public void PeriodInitDb(){
+            periodService.savePeriod(PeriodName.SYLLABUS, LocalDateTime.now().minusDays(2),LocalDateTime.now());
         }
 
     }
